@@ -1,0 +1,15 @@
+galaxy_info:
+  author: Phil Porada
+  description: Installs and configures dhcpd
+  company: Eat the rich
+  license: GPLv2
+
+  min_ansible_version: 2.1
+  platforms:
+  - name: EL
+    versions:
+    - 6
+    - 7
+  galaxy_tags: []
+
+dependencies: []

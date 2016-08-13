@@ -1,0 +1,47 @@
+---
+- name: Include OS-specific variables (Debian)
+  include_vars: "{{ ansible_os_family }}.yml"
+  when: ansible_os_family == "Debian"
+
+- name: Include OS-specific variables (RHEL)
+  include_vars: "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+  when: ansible_os_family == "RedHat"
+
+- name: Define dhcp package
+  set_fact:
+    dhcpd_package: "{{ __dhcpd_package }}"
+  when: dhcpd_package is not defined
+
+- name: Define dhcp daemon
+  set_fact:
+    dhcpd_daemon: "{{ __dhcpd_daemon }}"
+  when: dhcpd_daemon is not defined
+
+- name: Install packages
+  become: true
+  become_method: sudo
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+      - "{{ dhcpd_package }}"
+  notify:
+    - Enable dhcpd
+
+- name: Create /etc/dhcp
+  file:
+    state: directory
+    path: /etc/dhcp
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Build the dhcpd.conf template
+  template:
+    src: etc/dhcp/dhcpd.conf.j2
+    dest: /etc/dhcp/dhcpd.conf
+    mode: 0644
+    owner: root
+    group: root 
+  notify:
+    - Restart dhcpd

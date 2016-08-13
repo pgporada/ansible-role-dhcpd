@@ -1,0 +1,33 @@
+ddns-update-style       none;
+one-lease-per-client    true;
+log-facility            {{ dhcpd_log_facility }};
+ping-check              true;
+{% if dhcpd_authoritative == true %}
+authoritative;
+{% endif %}
+
+
+subnet {{ dhcpd_subnet_network }} netmask {{ dhcpd_subnet_netmask }} {
+
+    option subnet-mask          {{ dhcpd_subnet_netmask }};
+    option broadcast-address    {{ dhcpd_subnet_broadcast_addr }};
+    option routers              {{ dhcpd_subnet_routers }};
+    option domain-name          "{{ dhcpd_domain }}";
+    option ntp-servers          {% for ntp in dhcpd_ntpservers %}{{ ntp }}{% if not loop.last %},{% endif %}{% endfor %};
+    option domain-name-servers  {% for dns in dhcpd_dnsservers %}{{ dns }}{% if not loop.last %},{% endif %}{% endfor %};
+    range                       {{ dhcpd_subnet_range_start }} {{ dhcpd_subnet_range_end }};
+
+    default-lease-time          {{ dhcpd_default_lease_time }};
+    max-lease-time              {{ dhcpd_max_lease_time }};
+    
+}
+
+#host VIP1 {
+#    hardware ethernet   08:00:07:26:c0:a5;
+#    fixed-address       172.16.1.5;
+#}
+
+#host VIP2 {
+#    hardware ethernet   08:00:07:26:c0:a6;
+#    fixed-address       172.16.1.6;
+#}

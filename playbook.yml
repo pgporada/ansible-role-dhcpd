@@ -1,0 +1,5 @@
+- name: Phil's dhcpd Play
+  hosts: all
+  gather_facts: true
+  roles:
+    - .
