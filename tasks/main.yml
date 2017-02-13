@@ -24,7 +24,7 @@
     name: "{{ item }}"
     state: present
   with_items:
-      - "{{ dhcpd_package }}"
+    - "{{ dhcpd_package }}"
   notify:
     - Enable dhcpd
 
