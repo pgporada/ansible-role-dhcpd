@@ -1,14 +1,36 @@
-Role Name
+pgporada.dhcpd
 =========
 
-A brief description of the role goes here.
+Installs and configures dhcpd.
+
 
 Requirements
 ------------
 
+None
+
 
 Role Variables
 --------------
+
+    dhcpd_domain: "house.intra"
+    dhcpd_dnsservers:
+      - 8.8.8.8
+      - 8.8.4.4
+    dhcpd_ntpservers:
+      - 172.16.1.1
+
+    dhcpd_default_lease_time: 86400
+    dhcpd_max_lease_time: 86400
+    dhcpd_authoritative: true
+    dhcpd_log_facility: local0
+
+    dhcpd_subnet_network: 172.16.1.0
+    dhcpd_subnet_netmask: 255.255.255.0
+    dhcpd_subnet_range_start: 172.16.1.100
+    dhcpd_subnet_range_end: 172.16.1.200
+    dhcpd_subnet_broadcast_addr: 172.16.1.255
+    dhcpd_subnet_routers: 172.16.1.1
 
 
 Dependencies
@@ -27,7 +49,7 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-BSD
+GPLv3
 
 References
 ----------

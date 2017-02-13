@@ -42,6 +42,7 @@
     dest: /etc/dhcp/dhcpd.conf
     mode: 0644
     owner: root
-    group: root 
+    group: root
   notify:
     - Restart dhcpd
+...
